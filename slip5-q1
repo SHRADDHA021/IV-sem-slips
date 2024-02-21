@@ -1,0 +1,107 @@
+/*Q 1. Write a C program which uses Binary search tree library and displays nodes at each level,count
+of node at each level.
+[15 Marks]*/
+#include<stdio.h>
+#include<stdlib.h>
+#define max 50
+typedef struct node
+{
+int data;
+struct node*left,*right; 
+}node;
+struct queue
+{
+struct node *data1[max];
+int front,rear;
+};
+struct queue q;
+void init()
+{
+q.front=q.rear=-1;
+}
+int isempty()
+{
+return(q.front==q.rear);
+}
+int isfull()
+{
+return(q.rear==max-1);
+}
+void add(node *num)
+{
+q.data1[++q.rear]=num;
+}
+node *del()
+{
+return q.data1[++q.front];
+}
+node *create(node *root)
+{
+node *temp,*newnode,*parent;
+int i,n;
+printf("enter limit");
+scanf("%d",&n);
+for(i=0;i<n;i++)
+{
+newnode=(node *)malloc(sizeof(node));
+printf("enter value");
+scanf("%d",&newnode->data);
+newnode->left=NULL;
+newnode->right=NULL;
+if(root==NULL)
+{
+root=newnode;
+continue;
+}
+temp=root;
+while(temp!=NULL)
+{
+parent=temp;
+if(newnode->data<temp->data)
+temp=temp->left;
+else
+temp=temp->right;
+}
+if(newnode->data<parent->data)
+parent->left=newnode;
+else
+parent->right=newnode;
+}
+return root;
+}
+void level(node *root)
+{
+int level=0;
+node *temp,*m=NULL;
+init();
+add(root);
+add(m);
+printf("\nlevel:%d->",level);
+while(!isempty())
+{
+temp=del();
+if(temp==m)
+{
+level++;
+if(!isempty())
+{
+add(m);
+printf("\nlevel:%d->",level);
+}
+}
+else
+{
+printf("%d\t",temp->data);
+if(temp->left)
+add(temp->left);
+if(temp->right)
+add(temp->right);
+}
+}
+}
+int main()
+{
+node *root=NULL;
+root=create(root);
+level(root);
+}

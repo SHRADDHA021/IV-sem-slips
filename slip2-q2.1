@@ -1,0 +1,96 @@
+/*Q 2. Implement a Binary search tree (BST) library (btree.h) with operations – create, insert,
+preorder. Write a menu driven program that performs the above operations.
+[15 Marks]*/
+#include<stdio.h>
+#include<stdlib.h>
+typedef struct node 
+{
+int data;
+struct node *left,*right;
+}node;
+node *create(node*root)
+{
+int i,n;
+node *temp,*parent,*newnode;
+printf("enter limit");
+scanf("%d",&n);
+for(i=0;i<n;i++)
+{
+newnode=(node *)malloc(sizeof(node));
+printf("enter values");
+scanf("%d",&newnode->data);
+newnode->right=NULL;
+newnode->left=NULL;
+if(root==NULL)
+{
+root=newnode;
+continue;
+}
+temp=root;
+while(temp!=NULL)
+{
+parent=temp;
+if(newnode->data<temp->data)
+temp=temp->left;
+else
+temp=temp->right;
+}
+if(newnode->data<parent->data)
+parent->left=newnode;
+else
+parent->right=newnode;
+}
+return root;
+}
+node *insert(node *root)
+{
+node *temp=root,*newnode,*parent;
+newnode=(node *)malloc(sizeof(node));
+printf("enter value in newnode");
+scanf("%d",&newnode->data);
+newnode->left=NULL;
+newnode->right=NULL;
+while(temp!=NULL)
+{
+  parent=temp;
+  if(newnode->data<temp->data)
+  temp=temp->left;
+  else
+  temp=temp->right;
+}
+if(newnode->data<parent->data)
+parent->left=newnode;
+else
+parent->right=newnode;
+return root;
+}
+node *preorder(node *root)
+{
+node *temp=root;
+if(temp!=NULL)
+{
+printf("%d\t",temp->data);
+preorder(temp->left);
+preorder(temp->right);
+}
+}
+int main()
+{
+int ch;
+node *root=NULL;
+do
+{
+printf("\n1.create\n2.insert\n3.prerder:\n");
+scanf("%d",&ch);
+switch(ch)
+{
+case 1:root=create(root);
+break;
+case 2:root=insert(root);
+break;
+case 3:preorder(root);
+break;
+default:printf("invalid");
+}
+}while(ch<4);
+}

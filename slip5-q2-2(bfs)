@@ -1,0 +1,74 @@
+/*Q 2. Write a C program that accepts the vertices and edges of a graph and store it as an adjacency
+matrix. Implement function to traverse the graph using Breadth First Search (BFS) traversal.
+[15 Marks]*/
+#include<stdio.h>
+#include<stdlib.h>
+#define max 50
+struct node 
+{
+int data;
+struct node *left,*right;
+};
+struct queue
+{
+int *data1[max];
+int front,rear;
+};
+struct queue q;
+void init()
+{
+q.front=q.rear=-1;
+}
+int isempty()
+{
+return(q.front==q.rear);
+}
+int isfull()
+{
+return(q.rear==max-1);
+} 
+void add(int v)
+{
+q.data1[++q.rear]=v;
+}
+int del()
+{
+return q.data1[++q.front];
+}
+void bfs(int a[10][10],int n)
+{
+init();
+int i,j;
+int v[10]={0};
+i=1;
+add(i);
+v[i]=1;
+while(!isempty())
+{
+i=del();
+printf("v%d\t",i);
+for(j=1;j<=n;j++)
+{
+ if((a[i][j]==1)&&(v[j]==0))
+ {
+ add(j);
+ v[j]=1;
+ }
+}
+}
+}
+void main()
+{
+int a[10][10],n,i,j;
+printf("enter number of vertices");
+scanf("%d",&n);
+printf("enter adjacency matrix");
+for(i=1;i<=n;i++)
+{
+ for(j=1;j<=n;j++)
+ {
+   scanf("%d",&a[i][j]);
+ }
+}
+bfs(a,n);
+}
